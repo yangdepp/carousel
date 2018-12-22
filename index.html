@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.js"></script>
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .window {
+      margin: 20px auto 10px;
+      width: 300px;
+      overflow: hidden;
+    }
+
+    .window>.images {
+      display: inline-flex;
+      align-items: flex-start;
+      transition: all .3s;
+    }
+
+    #buttons{
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      font-size: 0;
+      width: 300px;
+      margin: 0 auto;
+    }
+    #buttons>span {
+      margin: 0 10px;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="window">
+    <div class="images" id="images">
+      <img src="./img/1.jpg" alt="" width="300" height="300">
+      <img src="./img/2.jpg" alt="" width="300" height="300">
+      <img src="./img/3.jpg" alt="" width="300" height="300">
+      <img src="./img/4.jpg" alt="" width="300" height="300">
+    </div>
+  </div>
+  <div id="buttons">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>4</span>
+  </div>
+  <script>
+    var allButtons = $('#buttons > span')
+
+    for (let i = 0; i < allButtons.length; i++) {
+      $(allButtons[i]).on('click', function (e) {
+        let index = $(e.currentTarget).index()
+        let p = index * -300;
+        $('#images').css({
+          transform: 'translateX(' + p + 'px)'
+        })
+
+        n = index;
+        allButtons.eq(n)
+          .addClass('red')
+          .siblings('.red').removeClass('red');
+      })
+    }
+
+    let n = 0;
+    x(allButtons.eq(n % 4))
+    var timer = setInterval(() => {
+      n += 1;
+      x(allButtons.eq(n % 4))
+    }, 3000)
+
+
+
+    $('.window').on('mouseenter', function () {
+      window.clearInterval(timer);
+    })
+
+    $('.window').on('mouseleave', function () {
+      timer = setInterval(() => {
+        n += 1;
+        allButtons.eq(n % 4).trigger('click')
+          .addClass('red')
+          .siblings('.red').removeClass('red');
+      }, 3000)
+    })
+
+    function x($button) {
+      $button.trigger('click')
+        .addClass('red')
+        .siblings('.red').removeClass('red')
+    }
+
+
+
+  </script>
+</body>
+
+</html>
